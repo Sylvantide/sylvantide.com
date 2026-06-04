@@ -1,24 +1,173 @@
-# Logs
-logs
-*.log
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-pnpm-debug.log*
-lerna-debug.log*
+# ------------------------------------------------------------------------------
+# IDEs and Text Editors
+# ------------------------------------------------------------------------------
 
-node_modules
-dist
-dist-ssr
+# JetBrains
+.idea/
+*.iml
+*.iws
+*.ipr
+out/
+!**/src/main/resources/archetype-resources/__parentId__/.idea/secrets.xml
+
+# Visual Studio Code
+.vscode/
+!.vscode/extensions.json
+!.vscode/launch.json
+!.vscode/settings.json
+!.vscode/tasks.json
+*.code-workspace
+.history/
+
+# Vim / Emacs
+*~
+*.swp
+*.swo
+.netrwhist
+.*.swp
+.*.swo
+\#*\#
+.\#*
+
+# Sublimetext
+*.sublime-project
+*.sublime-workspace
+
+# ------------------------------------------------------------------------------
+# Build Tools & Package Managers
+# ------------------------------------------------------------------------------
+
+# Gradle
+.gradle/
+build/
+!src/**/build/
+/build_cache/
+.configuration-cache/
+
+# Maven
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.next
+pom.xml.war
+pom.xml.gpg
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+.mvn/timing.properties
+.mvn/wrapper/.search
+
+# npm / yarn / pnpm
+node_modules/
+/dist/
+.npm/
+*.log
+yarn.lock
+pnpm-lock.yaml
+
+# ------------------------------------------------------------------------------
+# Frontend Frameworks & Web Development
+# ------------------------------------------------------------------------------
+
+# Angular CLI
+/.angular/
+/dist/
+/bazel-out/
+/project-out/
+/.cloud/
+
+# Svelte / Next.js / Nuxt / Vite
+.svelte-kit/
+.next/
+.nuxt/
+.vuepress/dist
+dist-ssr/
 *.local
 
-# Editor directories and files
-.vscode/*
-!.vscode/extensions.json
-.idea
+# ------------------------------------------------------------------------------
+# Languages & Runtimes (Common Temp & Build Dirs)
+# ------------------------------------------------------------------------------
+
+# Java / Kotlin
+*.class
+*.pyc
+*.js.map
+*.js
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.venv/
+venv/
+ENV/
+env/
+.tox/
+.coverage
+htmlcov/
+
+# Rust
+/target/
+**/*.rs.bk
+cargo-lock.json
+
+# Go
+/bin/
+/pkg/
+
+# C / C++
+*.o
+*.obj
+*.out
+*.a
+*.lib
+*.so
+*.dylib
+
+# ------------------------------------------------------------------------------
+# Operating Systems & System Files
+# ------------------------------------------------------------------------------
+
+# macOS
 .DS_Store
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
-*.sw?
+.AppleDouble
+.LSOverride
+._*
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.Trashes
+VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+
+# Windows
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+*.lnk
+*.cab
+desktop.ini
+
+# Linux
+.directory
+*~
+.fuse_hidden*
+.directory
+.trash/
+.nfs*
+
+# ------------------------------------------------------------------------------
+# Testing, Logs, & Security / Local Environment
+# ------------------------------------------------------------------------------
+log/
+*.log
+.env
+.env.local
+.env.*.local
+*.pem
+*.key
+*.secret
+.vagrant/
+.docker-sync.yml
