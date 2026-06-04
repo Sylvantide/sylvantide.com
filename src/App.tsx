@@ -4,24 +4,30 @@ function App() {
   return (
     <div className="min-h-screen bg-slate-50 flex flex-col items-center justify-center p-8 text-[#3c3b3c] font-sans">
       <header className="flex flex-col items-center mb-12">
-        <img src="/logo.svg" className="w-48 h-48 mb-6" alt="Sylvantide Logo" />
-        <h1 className="text-6xl font-bold tracking-tight text-[#6bab0a]">Sylvantide</h1>
+        <img src="/logo.svg" className="logo-img w-48 h-48 mb-6" alt="Sylvantide Logo" />
+        <h1 className="site-title text-6xl font-bold tracking-tight">Sylvantide</h1>
       </header>
       
       <main className="max-w-2xl text-center">
+        <p className="text-sm uppercase tracking-widest text-accent font-semibold mb-4">
+          Software Development
+        </p>
         <p className="text-xl mb-8 leading-relaxed">
-          Nurturing growth and flowing with innovation. We are dedicated to building a sustainable future.
+          Cultivating digital landscapes through continuous growth and fluid innovation.
         </p>
         
-        <div className="h-1 w-32 bg-[#1082dc] mx-auto mb-8"></div>
-        
-        <p className="text-sm uppercase tracking-widest text-[#955210] font-semibold">
-          Coming Soon
-        </p>
+        <div className="h-1 w-32 divider mx-auto mb-8"></div>
       </main>
 
-      <footer className="mt-auto pt-12 text-sm text-gray-500">
-        © {new Date().getFullYear()} Sylvantide LLC. All rights reserved.
+      <footer className="mt-auto pt-12 text-sm text-muted">
+        <p>
+          <a href="mailto:admin@sylvantide.com" className="footer-link">
+            admin@sylvantide.com
+          </a>
+        </p>
+        <p className="mt-2">
+          © {new Date().getFullYear()} Sylvantide LLC. All rights reserved.
+        </p>
       </footer>
     </div>
   )

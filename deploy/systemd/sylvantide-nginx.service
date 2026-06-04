@@ -1,0 +1,20 @@
+[Unit]
+Description=Sylvantide site nginx (127.0.0.1:8445)
+After=network.target
+
+[Service]
+Type=forking
+ExecStartPre=/usr/sbin/nginx -t -c /home/otasyn/git-work/sylvantide/deploy/nginx/sylvantide.conf
+ExecStart=/usr/sbin/nginx -c /home/otasyn/git-work/sylvantide/deploy/nginx/sylvantide.conf
+ExecReload=/bin/kill -s HUP $MAINPID
+ExecStop=/bin/kill -s QUIT $MAINPID
+PIDFile=/run/nginx-sylvantide.pid
+Restart=on-failure
+RestartSec=5
+
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=sylvantide-nginx
+
+[Install]
+WantedBy=multi-user.target
