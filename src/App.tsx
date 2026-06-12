@@ -110,7 +110,7 @@ function App() {
   const isTerms = currentPath === '/terms'
 
   return (
-    <div className="min-h-screen bg-slate-50 flex flex-col items-center justify-center p-8 text-[#3c3b3c] font-sans">
+    <div className="min-h-screen bg-slate-50 flex flex-col items-center justify-center p-8 font-sans">
       <header className="flex flex-col items-center mt-8 mb-6">
         <a href="/" onClick={(e) => navigate('/', e)} className="logo-header-link">
           <img src="/logo-no-bg-04.png" className="logo-img w-72 h-72 mb-6" alt="Sylvantide Logo" />
@@ -118,20 +118,20 @@ function App() {
         </a>
       </header>
       
-      <main className="max-w-2xl text-center w-full">
+      <main className="main-content text-center w-full">
         {isHome ? (
-          <>
-            <p className="text-sm uppercase tracking-widest text-accent font-semibold mb-4">
+          <div className="fantasy-card">
+            <p className="text-lg font-semibold mb-4 fantasy-accent-text">
               Software Development
             </p>
             <p className="text-xl mb-8 leading-relaxed">
               Cultivating digital landscapes through continuous growth and fluid innovation.
             </p>
             
-            <div className="h-1 w-32 divider mx-auto mb-8"></div>
-          </>
+            <div className="h-1 w-32 divider mx-auto"></div>
+          </div>
         ) : (
-          <div className="markdown-content text-left max-w-2xl w-full px-4">
+          <div className="markdown-content text-left max-w-2xl w-full px-4 fantasy-card">
             <a href="/" onClick={(e) => navigate('/', e)} className="back-link">
               ← Back to Home
             </a>

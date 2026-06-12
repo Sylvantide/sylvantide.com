@@ -1,3 +1,50 @@
+@import url('https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&family=Lora:ital,wght@0,400..700;1,400..700&display=swap');
+
+/* --- Fantasy Theme Variables --- */
+:root {
+  /* Light Mode: Enchanted Parchment */
+  --bg-base: #f5efe6;
+  --bg-gradient: 
+    radial-gradient(circle at 50% 30%, rgba(243, 215, 163, 0.4) 0%, transparent 70%),
+    linear-gradient(to bottom, #f5efe6, #e8dec9);
+  --text-main: #2c1d11;
+  --text-muted: #5c4033;
+  --accent: #1b4d3e;
+  --border-color: rgba(139, 90, 43, 0.18);
+  --box-shadow: 0 10px 30px rgba(139, 90, 43, 0.06);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    /* Dark Mode: Astral Void / Crystal Cave */
+    --bg-base: #0a0714;
+    --bg-gradient: 
+      radial-gradient(circle at 20% 20%, rgba(107, 33, 168, 0.15) 0%, transparent 50%),
+      radial-gradient(circle at 80% 80%, rgba(13, 148, 136, 0.12) 0%, transparent 50%),
+      linear-gradient(to bottom, #0a0714, #120d24);
+    --text-main: #e2e8f0;
+    --text-muted: #94a3b8;
+    --accent: #b070ff;
+    --border-color: rgba(168, 85, 247, 0.2);
+    --box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  }
+}
+
+/* --- Core Page & Typography Setup --- */
+body {
+  margin: 0;
+  min-height: 100vh;
+  background-color: var(--bg-base);
+  background-image: var(--bg-gradient);
+  background-attachment: fixed;
+  color: var(--text-main);
+  font-family: 'EB Garamond', 'Baskerville', 'Georgia', serif;
+  font-size: 1.15rem; /* Bumped slightly to scale with the wider layout */
+  line-height: 1.65;
+  text-rendering: optimizeLegibility;
+  transition: background 0.5s ease, color 0.5s ease;
+}
+
 #root {
   width: 100%;
   margin: 0 auto;
@@ -8,7 +55,11 @@
 }
 
 .bg-slate-50 {
-  background-color: #f8fafc;
+  background-color: transparent;
+}
+
+.font-sans {
+  font-family: 'EB Garamond', 'Baskerville', 'Georgia', serif;
 }
 
 .flex {
@@ -31,8 +82,9 @@
   text-align: center;
 }
 
-.max-w-2xl {
-  max-width: 42rem;
+.main-content {
+  max-width: 960px;
+  width: 100%;
 }
 
 .mb-4 {
@@ -73,7 +125,6 @@
 
 .logo-img {
   object-fit: contain;
-  /* transform: scale(1.5); */
 }
 
 .h-1 {
@@ -128,58 +179,81 @@
   line-height: 1.625;
 }
 
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-  color: #3c3b3c;
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Lora', 'Georgia', serif;
+  font-weight: 600;
+  color: var(--text-main);
+  text-transform: none;
+  letter-spacing: normal;
+  margin-top: 1.75rem;
+  margin-bottom: 0.85rem;
 }
 
 .site-title {
-  color: #1e4620;
+  color: var(--text-main);
+  font-family: 'Lora', 'Georgia', serif;
+  font-weight: 600;
+  text-transform: none;
 }
 
 .text-accent {
-  color: #4a7a06;
+  color: var(--accent);
 }
 
 .text-muted {
-  color: #5c5a5b;
+  color: var(--text-muted);
 }
 
 .divider {
-  background-color: #1082dc;
+  background-color: var(--accent);
+  opacity: 0.4;
 }
 
 .footer-link {
-  color: #1082dc;
+  color: var(--accent);
   text-decoration: none;
+  font-weight: 500;
+  transition: opacity 0.2s ease;
 }
 
 .footer-link:hover {
   text-decoration: underline;
+  opacity: 0.85;
 }
 
-.demo-button {
-  display: inline-block;
-  padding: 0.75rem 1.5rem;
-  font-size: 1rem;
-  font-weight: 600;
-  color: #ffffff;
-  background-color: #4a7a06;
-  border-radius: 9999px;
-  text-decoration: none;
-  transition: all 0.2s ease;
-  box-shadow: 0 4px 6px -1px rgba(74, 122, 6, 0.2), 0 2px 4px -1px rgba(74, 122, 6, 0.1);
+/* --- Expanded UI Container --- */
+.fantasy-card {
+  background: rgba(255, 255, 255, 0.02);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  
+  /* Layout adjustments for better proportions */
+  padding: 3rem;              /* Increased padding to match the broader layout */
+  width: 90%;                 /* Keeps it responsive on small viewports */
+  max-width: 960px;           /* The spacious reading standard */
+  margin: 3rem auto;          /* Centers the card on the page */
+  
+  box-shadow: var(--box-shadow);
+  box-sizing: border-box;     /* Includes padding in the width calculation */
+  transition: all 0.5s ease;
 }
 
-.demo-button:hover {
-  background-color: #3d6405;
-  transform: translateY(-1px);
-  box-shadow: 0 6px 8px -1px rgba(74, 122, 6, 0.3), 0 3px 6px -1px rgba(74, 122, 6, 0.2);
+@media (prefers-color-scheme: dark) {
+  .fantasy-card {
+    background: rgba(10, 7, 20, 0.45);
+  }
 }
 
-.demo-button:active {
-  transform: translateY(0);
+/* Decorative utility classes */
+.fantasy-accent-text {
+  color: var(--accent);
+  font-style: italic;
+}
+
+.muted-text {
+  color: var(--text-muted);
 }
 
 .footer-info {
@@ -192,7 +266,7 @@ body {
 }
 
 .footer-separator {
-  color: #8c8a8b;
+  color: var(--border-color);
   user-select: none;
 }
 
@@ -216,43 +290,50 @@ body {
   align-items: center;
 }
 
+/* --- Markdown Rendering for legal docs --- */
 .markdown-content {
   text-align: left;
-  max-width: 42rem;
+  max-width: 100%;
   margin: 0 auto;
 }
 
 .markdown-content h1 {
   font-size: 2.25rem;
   margin-top: 1.5rem;
-  margin-bottom: 1rem;
-  font-weight: 700;
-  color: #0f172a;
+  margin-bottom: 1.5rem;
+  font-weight: 600;
+  color: var(--text-main);
+  font-family: 'Lora', 'Georgia', serif;
+  text-transform: none;
 }
 
 .markdown-content h2 {
   font-size: 1.5rem;
   margin-top: 2rem;
-  margin-bottom: 0.75rem;
+  margin-bottom: 1rem;
   font-weight: 600;
-  color: #1e293b;
+  color: var(--text-main);
+  font-family: 'Lora', 'Georgia', serif;
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 0.25rem;
+  text-transform: none;
 }
 
 .markdown-content p {
   margin-bottom: 1.25rem;
   line-height: 1.75;
-  color: #334155;
+  color: var(--text-muted);
 }
 
 .markdown-content li {
   margin-bottom: 0.5rem;
   line-height: 1.6;
-  color: #334155;
+  color: var(--text-muted);
 }
 
 .markdown-content strong {
   font-weight: 600;
-  color: #0f172a;
+  color: var(--text-main);
 }
 
 .back-link {
@@ -261,7 +342,7 @@ body {
   gap: 0.5rem;
   margin-bottom: 2rem;
   font-weight: 500;
-  color: #1082dc;
+  color: var(--accent);
   text-decoration: none;
   font-size: 0.95rem;
 }
