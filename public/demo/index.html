@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<script>
+			window.addEventListener('error', function(event) {
+				var notice = document.getElementById('status-notice');
+				var status = document.getElementById('status');
+				var errorMsg = event.message || (event.error && event.error.message) || String(event);
+				var details = errorMsg + ' at ' + (event.filename || 'unknown') + ':' + (event.lineno || '0');
+				fetch('/demo/log-error?type=error&msg=' + encodeURIComponent(details));
+				if (notice && status) {
+					notice.style.display = 'block';
+					status.style.visibility = 'visible';
+					notice.innerHTML = '<span style="color:#ef4444;font-weight:bold;font-size:16px;">Unhandled Error:</span><br>' + errorMsg + '<br><small style="color:#9ca3af;">at ' + (event.filename || 'unknown') + ':' + (event.lineno || '0') + '</small>';
+				}
+			});
+			window.addEventListener('unhandledrejection', function(event) {
+				var notice = document.getElementById('status-notice');
+				var status = document.getElementById('status');
+				var reason = event.reason || event;
+				var errorMsg = reason.message || reason.stack || String(reason);
+				fetch('/demo/log-error?type=rejection&msg=' + encodeURIComponent(errorMsg));
+				if (notice && status) {
+					notice.style.display = 'block';
+					status.style.visibility = 'visible';
+					notice.innerHTML = '<span style="color:#ef4444;font-weight:bold;font-size:16px;">Unhandled Promise Rejection:</span><br>' + errorMsg;
+				}
+			});
+		</script>
+		<meta name="viewport" content="width=device-width, user-scalable=no">
+		<title>Sylvantide Godot Demo</title>
+		<style>
+body {
+	touch-action: none;
+	margin: 0;
+	border: 0 none;
+	padding: 0;
+	text-align: center;
+	background-color: #0b0f19;
+}
+
+#canvas {
+	display: block;
+	margin: 0;
+	color: white;
+}
+
+#canvas:focus {
+	outline: none;
+}
+
+.godot {
+	font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+	color: #e0e0e0;
+	background-color: #1f2937;
+	background-image: linear-gradient(to bottom, #1f2937, #111827);
+	border: 1px solid #374151;
+	box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+	border-radius: 8px;
+}
+
+/* Status display */
+
+#status {
+	position: absolute;
+	left: 0;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	/* don't consume click events - make children visible explicitly */
+	visibility: hidden;
+}
+
+#status-progress {
+	width: 366px;
+	height: 8px;
+	background-color: #1f2937;
+	border: 1px solid #374151;
+	padding: 2px;
+	box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+	border-radius: 9999px;
+	visibility: visible;
+}
+
+@media only screen and (orientation:portrait) {
+	#status-progress {
+		width: 61.8%;
+	}
+}
+
+#status-progress-inner {
+	height: 100%;
+	width: 0;
+	box-sizing: border-box;
+	transition: width 0.3s ease-out;
+	background-color: #3b82f6;
+	border-radius: 9999px;
+}
+
+#status-indeterminate {
+	height: 42px;
+	visibility: visible;
+	position: relative;
+}
+
+#status-indeterminate > div {
+	width: 4.5px;
+	height: 0;
+	border-style: solid;
+	border-width: 9px 3px 0 3px;
+	border-color: #3b82f6 transparent transparent transparent;
+	transform-origin: center 21px;
+	position: absolute;
+}
+
+#status-indeterminate > div:nth-child(1) { transform: rotate( 22.5deg); }
+#status-indeterminate > div:nth-child(2) { transform: rotate( 67.5deg); }
+#status-indeterminate > div:nth-child(3) { transform: rotate(112.5deg); }
+#status-indeterminate > div:nth-child(4) { transform: rotate(157.5deg); }
+#status-indeterminate > div:nth-child(5) { transform: rotate(202.5deg); }
+#status-indeterminate > div:nth-child(6) { transform: rotate(247.5deg); }
+#status-indeterminate > div:nth-child(7) { transform: rotate(292.5deg); }
+#status-indeterminate > div:nth-child(8) { transform: rotate(337.5deg); }
+
+#status-notice {
+	margin: 0 100px;
+	line-height: 1.5;
+	visibility: visible;
+	padding: 16px 24px;
+}
+
+/* Back Link styling */
+.back-link {
+	position: absolute;
+	top: 16px;
+	left: 16px;
+	color: #9ca3af;
+	text-decoration: none;
+	font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+	font-weight: 500;
+	font-size: 14px;
+	background: rgba(17, 24, 39, 0.8);
+	backdrop-filter: blur(8px);
+	-webkit-backdrop-filter: blur(8px);
+	padding: 10px 18px;
+	border-radius: 9999px;
+	border: 1px solid rgba(75, 85, 99, 0.4);
+	transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+	box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+	z-index: 10;
+}
+
+.back-link:hover {
+	color: #ffffff;
+	border-color: rgba(156, 163, 175, 0.8);
+	background: rgba(17, 24, 39, 0.95);
+	transform: translateY(-1px);
+}
+		</style>
+	</head>
+	<body>
+		<a href="/" class="back-link">← Back to Sylvantide</a>
+		<canvas id="canvas">
+			HTML5 canvas appears to be unsupported in the current browser.<br >
+			Please try updating or use a different browser.
+		</canvas>
+		<div id="status">
+			<div id="status-progress" style="display: none;" oncontextmenu="event.preventDefault();">
+				<div id ="status-progress-inner"></div>
+			</div>
+			<div id="status-indeterminate" style="display: none;" oncontextmenu="event.preventDefault();">
+				<div></div>
+				<div></div>
+				<div></div>
+				<div></div>
+				<div></div>
+				<div></div>
+				<div></div>
+				<div></div>
+			</div>
+			<div id="status-notice" class="godot" style="display: none;"></div>
+		</div>
+
+		<script src="godot.js"></script>
+		<script>
+const GODOT_CONFIG = {
+	"args": [],
+	"canvasResizePolicy": 2,
+	"executable": "godot",
+	"experimentalVK": false,
+	"fileSizes": {
+		"godot.wasm": 37024354,
+		"godot.zip": 142512
+	},
+	"focusCanvas": true,
+	"gdextensionLibs": [],
+	"mainPack": "godot.zip"
+};
+const engine = new Engine(GODOT_CONFIG);
+
+(function () {
+	const INDETERMINATE_STATUS_STEP_MS = 100;
+	const statusProgress = document.getElementById('status-progress');
+	const statusProgressInner = document.getElementById('status-progress-inner');
+	const statusIndeterminate = document.getElementById('status-indeterminate');
+	const statusNotice = document.getElementById('status-notice');
+
+	let initializing = true;
+	let statusMode = 'hidden';
+
+	let animationCallbacks = [];
+	function animate(time) {
+		animationCallbacks.forEach((callback) => callback(time));
+		requestAnimationFrame(animate);
+	}
+	requestAnimationFrame(animate);
+
+	function animateStatusIndeterminate(ms) {
+		const i = Math.floor((ms / INDETERMINATE_STATUS_STEP_MS) % 8);
+		if (statusIndeterminate.children[i].style.borderTopColor === '') {
+			Array.prototype.slice.call(statusIndeterminate.children).forEach((child) => {
+				child.style.borderTopColor = '';
+			});
+			statusIndeterminate.children[i].style.borderTopColor = '#3b82f6';
+		}
+	}
+
+	function setStatusMode(mode) {
+		if (statusMode === mode || !initializing) {
+			return;
+		}
+		[statusProgress, statusIndeterminate, statusNotice].forEach((elem) => {
+			elem.style.display = 'none';
+		});
+		animationCallbacks = animationCallbacks.filter(function (value) {
+			return (value !== animateStatusIndeterminate);
+		});
+		switch (mode) {
+		case 'progress':
+			statusProgress.style.display = 'block';
+			break;
+		case 'indeterminate':
+			statusIndeterminate.style.display = 'block';
+			animationCallbacks.push(animateStatusIndeterminate);
+			break;
+		case 'notice':
+			statusNotice.style.display = 'block';
+			break;
+		case 'hidden':
+			break;
+		default:
+			throw new Error('Invalid status mode');
+		}
+		statusMode = mode;
+	}
+
+	function setStatusNotice(text) {
+		while (statusNotice.lastChild) {
+			statusNotice.removeChild(statusNotice.lastChild);
+		}
+		const lines = text.split('\n');
+		lines.forEach((line) => {
+			statusNotice.appendChild(document.createTextNode(line));
+			statusNotice.appendChild(document.createElement('br'));
+		});
+	}
+
+	function displayFailureNotice(err) {
+		const msg = err.message || err;
+		console.error(msg);
+		fetch('/demo/log-error?type=failure&msg=' + encodeURIComponent(msg));
+		setStatusNotice(msg);
+		setStatusMode('notice');
+		initializing = false;
+	}
+
+	const missing = Engine.getMissingFeatures();
+	if (missing.length !== 0) {
+		const missingMsg = 'Error\nThe following features required to run Godot projects on the Web are missing:\n';
+		displayFailureNotice(missingMsg + missing.join('\n'));
+	} else {
+		setStatusMode('indeterminate');
+		engine.startGame({
+			'onProgress': function (current, total) {
+				if (total > 0) {
+					statusProgressInner.style.width = `${(current / total) * 100}%`;
+					setStatusMode('progress');
+					if (current === total) {
+						// wait for progress bar animation
+						setTimeout(() => {
+							setStatusMode('indeterminate');
+						}, 500);
+					}
+				} else {
+					setStatusMode('indeterminate');
+				}
+			},
+		}).then(() => {
+			setStatusMode('hidden');
+			initializing = false;
+		}, displayFailureNotice);
+	}
+}());
+		</script>
+	</body>
+</html>
