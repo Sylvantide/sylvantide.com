@@ -181,3 +181,30 @@ body {
 .demo-button:active {
   transform: translateY(0);
 }
+
+.footer-info {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+}
+
+.footer-separator {
+  color: #8c8a8b;
+  user-select: none;
+}
+
+.footer-github-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.github-icon {
+  width: 1rem;
+  height: 1rem;
+  display: inline-block;
+  vertical-align: middle;
+}
